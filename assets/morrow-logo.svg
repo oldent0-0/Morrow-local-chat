@@ -1,12 +1,29 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="72" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#B892FF"/>
-      <stop offset="0.55" stop-color="#8D66F7"/>
-      <stop offset="1" stop-color="#5B38D9"/>
+    <linearGradient id="bg" x1="92" y1="64" x2="420" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#201B2D"/>
+      <stop offset="0.55" stop-color="#141823"/>
+      <stop offset="1" stop-color="#0D0F18"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="146" y1="146" x2="354" y2="354" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4F7FF"/>
+      <stop offset="1" stop-color="#D8E2FF"/>
+    </linearGradient>
+    <linearGradient id="arrow" x1="206" y1="150" x2="340" y2="354" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#52C5FF"/>
+      <stop offset="0.58" stop-color="#2D73F2"/>
+      <stop offset="1" stop-color="#2254D9"/>
     </linearGradient>
   </defs>
 
-  <rect x="56" y="56" width="400" height="400" rx="96" fill="url(#bg)"/>
-  <path d="M143 354V158L256 281L369 158V354" stroke="#fff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#bg)"/>
+
+  <circle cx="256" cy="256" r="148" stroke="url(#ring)" stroke-width="18" fill="none" opacity="0.9"/>
+  <circle cx="256" cy="256" r="92" stroke="url(#ring)" stroke-width="12" fill="none" opacity="0.7"/>
+
+  <path d="M172 200C208 156 236 136 256 136C276 136 304 156 340 200" stroke="#F5F7FF" stroke-width="16" stroke-linecap="round"/>
+  <path d="M340 312C304 356 276 376 256 376C236 376 208 356 172 312" stroke="#F5F7FF" stroke-width="16" stroke-linecap="round"/>
+
+  <path d="M228 146L330 256L228 366V295H160V217H228V146Z" fill="url(#arrow)"/>
+  <circle cx="256" cy="256" r="18" fill="#F5F7FF" opacity="0.95"/>
 </svg>
