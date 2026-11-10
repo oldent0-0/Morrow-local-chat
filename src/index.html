@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'none';"
+    >
+    <title>Morrow — Local Assistant</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Chat sidebar">
+        <div class="chats-header">
+          <div class="chats-heading" id="sidebar-title">Chats</div>
+          <div class="chats-header-actions">
+            <button class="sidebar-icon-button" id="sidebar-new-chat" type="button" aria-label="New chat" title="New chat">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9.6 3H4.4A1.4 1.4 0 0 0 3 4.4v7.2A1.4 1.4 0 0 0 4.4 13h7.2a1.4 1.4 0 0 0 1.4-1.4V7.5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/><path d="m8 10.1.5-2.3L12.9 3.4a1.15 1.15 0 0 1 1.6 1.6l-4.4 4.4-2.1.7Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="sidebar-icon-button settings-back-button" id="settings-back" type="button" aria-label="Back to chats" title="Back to chats" hidden>
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m9.8 3.2-4.7 4.7 4.7 4.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="chat-sidebar-content" id="chat-sidebar-content">
+          <label class="chat-search">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.3" stroke="currentColor" stroke-width="1.35"/><path d="m10.2 10.2 3 3" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg>
+            <input id="chat-search-input" type="search" placeholder="Search" aria-label="Search chats">
+            <span class="search-clear" id="search-clear" aria-hidden="true">×</span>
+          </label>
+          <button class="new-folder-button" id="new-folder-button" type="button">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 5a1 1 0 0 1 1-1h3l1.3 1.4H13a1 1 0 0 1 1 1v5.2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M10.8 7.5v3.2m-1.6-1.6H12.4" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"/></svg>
+            <span>New Folder</span>
+          </button>
+          <div class="folder-list" id="folder-list" aria-label="Chat folders"></div>
+          <nav class="chat-history-list" id="chat-history-list" aria-label="Recent chats"></nav>
+          <div class="chat-search-empty" id="chat-search-empty" hidden>No matching chats</div>
+        </div>
+        <nav class="settings-sidebar-content" id="settings-navigation" aria-label="Settings" hidden>
+          <div class="menu-section-label">GATEWAY</div>
+          <button class="menu-link" type="button" data-view="connection"><span>◈</span><span class="menu-link-label">Connection</span><span class="menu-status" id="nav-connection-status"></span></button>
+          <button class="menu-link" type="button" data-view="sessions"><span>◌</span><span class="menu-link-label">Sessions</span><span class="nav-count" id="session-count">0</span></button>
+          <button class="menu-link" type="button" data-view="skills"><span>✳</span><span class="menu-link-label">Skills</span></button>
+          <button class="menu-link" type="button" data-view="channels"><span>◈</span><span class="menu-link-label">Channels</span></button>
+          <button class="menu-link" type="button" data-view="instances"><span>▣</span><span class="menu-link-label">Instances</span></button>
+          <button class="menu-link" type="button" data-view="cron"><span>◷</span><span class="menu-link-label">Cron</span><span class="soon-label">SOON</span></button>
+          <button class="menu-link" type="button" data-view="advanced"><span>⌘</span><span class="menu-link-label">Advanced</span></button>
+          <div class="menu-section-label computer-menu-label">THIS COMPUTER</div>
+          <div class="menu-computer-status"><span class="status-pulse" id="sidebar-status-dot"></span><span id="sidebar-status-text">Local · not connected</span></div>
+          <button class="menu-link" type="button" data-view="themes"><span>◐</span><span class="menu-link-label">Themes</span></button>
+          <button class="menu-link" type="button" data-view="diagnostics"><span>⌁</span><span class="menu-link-label">Diagnostics</span></button>
+          <button class="menu-link" type="button" data-view="settings"><span>⚙</span><span class="menu-link-label">Settings</span></button>
+        </nav>
+        <button class="sidebar-settings-button" id="sidebar-settings" type="button" aria-label="Open settings" aria-current="false" title="Settings">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M8.2 2.8h3.6l.45 1.75c.43.16.84.4 1.2.7l1.75-.55 1.8 3.1-1.3 1.25c.08.45.08.9 0 1.35L17 11.65l-1.8 3.1-1.75-.55c-.36.3-.77.54-1.2.7l-.45 1.75H8.2l-.45-1.75c-.43-.16-.84-.4-1.2-.7l-1.75.55-1.8-3.1 1.3-1.25a4 4 0 0 1 0-1.35L3 7.8l1.8-3.1 1.75.55c.36-.3.77-.54 1.2-.7l.45-1.75Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><circle cx="10" cy="9.75" r="2.2" stroke="currentColor" stroke-width="1.35"/></svg>
+        </button>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="breadcrumb"><span>WORKSPACE</span><span class="breadcrumb-separator">/</span><strong id="page-title">Chat</strong></div>
+          <div class="topbar-actions">
+            <span class="privacy-chip"><span class="privacy-dot"></span> LOCAL &amp; PRIVATE</span>
+            <button class="top-action" id="header-connection" type="button" data-view="connection">Model settings</button>
+          </div>
+        </header>
+
+        <div class="workspace-scroll" id="workspace-scroll">
+          <section class="view-panel chat-panel visible" id="view-chat" aria-label="Conversation">
+            <div class="chat-scroll" id="conversation-scroll">
+              <div class="chat-inner">
+                <div class="welcome" id="welcome">
+                  <div class="welcome-mark" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" fill="none"><path d="M10 35V14.5c0-2.5 2.7-3.8 4.5-2l9.5 9 9.5-9c1.8-1.8 4.5-.5 4.5 2V35" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 35v-9l6 5.5 6-5.5v9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="eyebrow">YOUR LOCAL AI, READY WHEN YOU ARE</div>
+                  <h1>How can I help <span>today?</span></h1>
+                  <p>Your capable, thoughtful assistant. Private on your own machine.</p>
+                  <div class="suggestions" aria-label="Try asking">
+                    <button class="suggestion" type="button" data-prompt="Help me plan a calm, focused day.">
+                      <span class="suggestion-icon" aria-hidden="true">↗</span>
+                      <span><strong>Plan the day</strong><small>Find a little focus</small></span>
+                    </button>
+                    <button class="suggestion" type="button" data-prompt="I have an idea I want to think through.">
+                      <span class="suggestion-icon" aria-hidden="true">✳</span>
+                      <span><strong>Think out loud</strong><small>Explore an idea together</small></span>
+                    </button>
+                    <button class="suggestion" type="button" data-prompt="Explain a tricky topic to me in simple terms.">
+                      <span class="suggestion-icon" aria-hidden="true">⌁</span>
+                      <span><strong>Learn something</strong><small>Make a tricky topic click</small></span>
+                    </button>
+                  </div>
+                  <button class="configure-nudge" type="button" data-view="connection">Connect your local model <span aria-hidden="true">→</span></button>
+                </div>
+                <div class="messages" id="messages" aria-live="polite"></div>
+                <div class="error-banner" id="error-banner" role="alert" hidden></div>
+              </div>
+            </div>
+
+            <div class="composer-area">
+              <form class="composer" id="composer">
+                <label class="sr-only" for="message-input">Message Morrow</label>
+                <textarea id="message-input" rows="1" placeholder="Message Morrow..." maxlength="12000"></textarea>
+                <div class="composer-bottom">
+                  <span class="composer-hint">Enter to send <span>·</span> Shift + Enter for a new line</span>
+                  <button class="send-button" id="send-button" type="submit" aria-label="Send message" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5m0 0L6.5 10.5M12 5l5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </form>
+              <p class="disclaimer">Powered by your local model · Responses may not always be accurate</p>
+            </div>
+          </section>
+
+          <section class="view-panel page-view" id="view-connection" aria-labelledby="connection-title" hidden>
+            <div class="page-heading">
+              <div><div class="eyebrow">GATEWAY</div><h1 id="connection-title">Connection</h1><p>Connect Morrow to the model running on your computer.</p></div>
+              <span class="state-pill" id="connection-state">NOT CONNECTED</span>
+            </div>
+            <div class="info-card connection-card">
+              <div class="card-title-row"><div><h2>Local model</h2><p>Compatible with local OpenAI-style APIs, including Ollama.</p></div><div class="connection-orb" aria-hidden="true"><span></span></div></div>
+              <form class="connection-form" id="connection-form">
+                <label class="field-label" for="endpoint-input">API base URL</label>
+                <input id="endpoint-input" name="endpoint" type="url" placeholder="http://localhost:11434/v1" autocomplete="url" required>
+                <p class="field-help">Include <code>/v1</code> when your server requires it. Ollama: <code>http://localhost:11434/v1</code></p>
+                <label class="field-label" for="model-input">Model name</label>
+                <input id="model-input" name="model" type="text" placeholder="e.g. qwen2.5:7b" autocomplete="off" required maxlength="200">
+                <p class="field-help">Use the model name your local server expects.</p>
+                <div class="card-actions">
+                  <button class="secondary-button" id="test-connection" type="button">Send test prompt</button>
+                  <button class="primary-button" type="submit">Save connection</button>
+                </div>
+                <p class="connection-feedback" id="connection-feedback" role="status" hidden></p>
+              </form>
+            </div>
+            <div class="info-card note-card"><span class="note-icon" aria-hidden="true">◎</span><div><strong>Your model stays yours</strong><p>Morrow sends requests only to the API address you choose. It does not use a cloud model or need an account.</p></div></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-sessions" aria-labelledby="sessions-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">LOCAL HISTORY</div><h1 id="sessions-title">Sessions</h1><p>Pick up any conversation saved on this computer.</p></div><span class="state-pill" id="sessions-state">0 SAVED</span></div>
+            <div class="session-list" id="session-list"></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-skills" aria-labelledby="skills-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">ASSISTANT</div><h1 id="skills-title">Skills</h1><p>Install built-in skills to guide Morrow's responses. Installed skills stay on this computer.</p></div><span class="state-pill" id="skills-installed-count">0 INSTALLED</span></div>
+            <div class="skills-section-heading"><div><h2>Skill library</h2><p>Choose skills to make available to your local model. You can uninstall them at any time.</p></div></div>
+            <div class="skills-grid" id="skills-list" aria-live="polite"><div class="empty-state">Loading available skills…</div></div>
+            <p class="skills-feedback" id="skills-feedback" role="status" hidden></p>
+            <div class="info-card prompt-card">
+              <div class="card-title-row"><div><h2>Assistant instructions</h2><p>Your editable <code>LOCAL_MODEL.md</code> and installed skills are sent with each chat request.</p></div><span class="file-icon" aria-hidden="true">MD</span></div>
+              <pre class="prompt-preview" id="prompt-preview">Loading local model instructions…</pre>
+              <div class="prompt-footer"><span>Edit this file to customize Morrow: <code id="prompt-path">Loading file location…</code></span><div class="prompt-actions"><button class="secondary-button" id="open-prompt" type="button">Open instructions</button><button class="secondary-button" id="reload-prompt" type="button">Reload preview</button></div></div>
+            </div>
+            <div class="info-card note-card"><span class="note-icon" aria-hidden="true">✳</span><div><strong>Ready to think things through</strong><p>Your assistant can reason, explain, write, brainstorm, and help with everyday tasks. Its capabilities depend on the local model you connect.</p></div></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-channels" aria-labelledby="channels-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">GATEWAY</div><h1 id="channels-title">Channels</h1><p>External chat connections are not part of this local-first MVP.</p></div><span class="state-pill">NO INTEGRATIONS</span></div>
+            <div class="notice-card"><span class="notice-symbol" aria-hidden="true">i</span><div><strong>Morrow runs as a private desktop app</strong><p>WhatsApp, Telegram, Discord, and other messaging integrations are not enabled. Your conversations happen right here and stay on this computer.</p></div></div>
+            <div class="feature-list"><div class="feature-row"><span class="feature-dot"></span><strong>Desktop chat</strong><span>Available now</span><span class="feature-state online">READY</span></div><div class="feature-row"><span class="feature-dot inactive"></span><strong>Messaging integrations</strong><span>Not included in this MVP</span><span class="feature-state">UNAVAILABLE</span></div></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-instances" aria-labelledby="instances-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">GATEWAY</div><h1 id="instances-title">Instances</h1><p>Morrow and its model server on this computer.</p></div><span class="state-pill" id="instances-state">LOCAL DEVICE</span></div>
+            <div class="instance-card"><div class="instance-avatar" aria-hidden="true">M</div><div class="instance-info"><strong>Morrow desktop</strong><span>Chat app · this computer</span></div><span class="online-badge">RUNNING</span></div>
+            <div class="instance-card" id="model-instance-card"><div class="instance-avatar model-avatar" aria-hidden="true">⌘</div><div class="instance-info"><strong>Local model server</strong><span id="instance-model-detail">Not configured</span></div><span class="offline-badge" id="instance-model-state">NOT CONNECTED</span></div>
+            <button class="secondary-button" data-view="connection" type="button">Configure model connection</button>
+          </section>
+
+          <section class="view-panel page-view" id="view-cron" aria-labelledby="cron-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">AUTOMATION</div><h1 id="cron-title">Cron</h1><p>Scheduled tasks for your assistant.</p></div><span class="state-pill">NOT AVAILABLE</span></div>
+            <div class="notice-card"><span class="notice-symbol" aria-hidden="true">◷</span><div><strong>Scheduled tasks aren't part of this MVP yet</strong><p>Morrow currently replies when you start a conversation. Background jobs and scheduled actions are not running.</p></div></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-advanced" aria-labelledby="advanced-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">GATEWAY</div><h1 id="advanced-title">Advanced</h1><p>How Morrow connects to and talks with your model.</p></div><span class="state-pill">LOCAL API</span></div>
+            <div class="info-card settings-summary"><div class="summary-row"><div><span>API endpoint</span><strong id="advanced-endpoint">Not configured</strong></div><button class="text-button" data-view="connection" type="button">Edit</button></div><div class="summary-row"><div><span>Selected model</span><strong id="advanced-model">Not configured</strong></div><button class="text-button" data-view="connection" type="button">Edit</button></div><div class="summary-row"><div><span>Assistant personality</span><strong>LOCAL_MODEL.md</strong></div><button class="text-button" data-view="skills" type="button">View</button></div></div>
+            <div class="info-card note-card"><span class="note-icon" aria-hidden="true">◎</span><div><strong>Direct connection</strong><p>Chat requests use your configured OpenAI-compatible endpoint. The app does not proxy through a Morrow server or send telemetry.</p></div></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-diagnostics" aria-labelledby="diagnostics-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">THIS COMPUTER</div><h1 id="diagnostics-title">Diagnostics</h1><p>Check whether Morrow can reach your local model server.</p></div><button class="secondary-button" id="run-diagnostics" type="button">Run connection check</button></div>
+            <div class="diagnostic-list"><div class="diagnostic-row"><span class="diagnostic-indicator okay"></span><div><strong>Morrow desktop</strong><p>The app window is running on this computer.</p></div><span class="diagnostic-result">RUNNING</span></div><div class="diagnostic-row"><span class="diagnostic-indicator" id="diagnostic-model-indicator"></span><div><strong>Local model API</strong><p id="diagnostic-model-description">Run a check to test the configured endpoint.</p></div><span class="diagnostic-result" id="diagnostic-model-result">NOT CHECKED</span></div></div>
+            <div class="info-card note-card"><span class="note-icon" aria-hidden="true">◎</span><div><strong>Private diagnostic</strong><p>Connection checks go only to the model endpoint you configured.</p></div></div>
+          </section>
+
+          <section class="view-panel page-view" id="view-themes" aria-labelledby="themes-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">THIS COMPUTER</div><h1 id="themes-title">Themes</h1><p>Choose a color palette and a logo for your Morrow workspace.</p></div><span class="state-pill">8 THEMES</span></div>
+            <section class="info-card customization-card" aria-labelledby="customization-title">
+              <div class="card-title-row"><div><h2 id="customization-title">Color themes</h2><p>Select a palette to change the colors across your workspace.</p></div></div>
+              <div class="customization-section">
+                <div class="theme-options" id="theme-options" role="group" aria-label="Color themes"></div>
+                <p class="customization-feedback" id="theme-feedback" role="status" aria-live="polite"></p>
+              </div>
+              <div class="customization-section logo-customization">
+                <div class="customization-section-heading"><strong>Workspace logo</strong><span>Shown beside assistant messages and on the welcome screen</span></div>
+                <div class="logo-controls">
+                  <div class="logo-preview" aria-hidden="true"><img id="logo-preview-image" alt="" hidden><span id="logo-preview-default">M</span></div>
+                  <div class="logo-actions">
+                    <div class="logo-action-buttons">
+                      <button class="secondary-button" id="choose-logo" type="button">Choose image</button>
+                      <button class="text-button" id="reset-logo" type="button">Reset to default</button>
+                    </div>
+                    <p class="logo-help">PNG, JPEG, WebP, or GIF · up to 512 KB</p>
+                    <p class="customization-feedback" id="logo-feedback" role="status" aria-live="polite"></p>
+                    <input id="logo-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section class="view-panel page-view" id="view-settings" aria-labelledby="settings-page-title" hidden>
+            <div class="page-heading"><div><div class="eyebrow">THIS COMPUTER</div><h1 id="settings-page-title">Settings</h1><p>Manage how Morrow stores conversations on this device.</p></div><span class="state-pill">ON THIS DEVICE</span></div>
+            <div class="info-card storage-card"><div class="card-title-row"><div><h2>Conversation history</h2><p>Your chats are saved locally in the app profile on this computer.</p></div><span class="storage-icon" aria-hidden="true">◉</span></div><div class="storage-summary"><span>Saved sessions</span><strong id="settings-session-count">0</strong></div><button class="danger-button" id="clear-history" type="button">Delete all chat history</button></div>
+            <div class="info-card note-card"><span class="note-icon" aria-hidden="true">◎</span><div><strong>Private by default</strong><p>Chat history stays on this device. Uninstalling Morrow does not automatically delete your saved conversations.</p></div></div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

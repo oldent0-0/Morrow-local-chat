@@ -1,0 +1,11 @@
+node_modules/
+release/
+coverage/
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-debug.log*
+builder-debug.yml
+.DS_Store
+Thumbs.db
