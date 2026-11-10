@@ -30,11 +30,13 @@
     },
     "files": [
       "src/**/*",
+      "assets/**/*",
       "LOCAL_MODEL.md",
       "package.json"
     ],
     "win": {
       "target": "nsis",
+      "icon": "assets/morrow-logo.ico",
       "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "nsis": {

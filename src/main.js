@@ -75,6 +75,7 @@ function createWindow() {
     minWidth: 760,
     minHeight: 600,
     title: "Morrow",
+    icon: path.join(__dirname, "../assets/morrow-logo.ico"),
     backgroundColor: "#111116",
     autoHideMenuBar: true,
     webPreferences: {

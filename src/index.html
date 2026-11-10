@@ -8,11 +8,16 @@
       content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'none';"
     >
     <title>Morrow — Local Assistant</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/morrow-logo.svg">
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar" aria-label="Chat sidebar">
+        <div class="sidebar-brand">
+          <img src="../assets/morrow-logo.svg" alt="" width="32" height="32">
+          <span class="sidebar-brand-copy"><strong>Morrow</strong><small>LOCAL ASSISTANT</small></span>
+        </div>
         <div class="chats-header">
           <div class="chats-heading" id="sidebar-title">Chats</div>
           <div class="chats-header-actions">
